@@ -25,11 +25,13 @@ clock = pygame.time.Clock()
 arial_font = pygame.font.SysFont("Arial Black", 40)
 butten_font = pygame.font.SysFont("Arial", 22)
 level_choice_font = pygame.font.SysFont("Arial", 30)
+
 text = arial_font.render("Welcome to MIPT", True, PANTONE_257 )
 level_choice_text = level_choice_font.render("Выберите уровень сложности", True, BLACK)
 butten_1_text = butten_font.render("Вы на БТ ", True, PANTONE_351 )
 butten_2_text = butten_font.render("Вы все еще БТ, но взяли себе вычматы", True, PANTONE_351 )
 butten_3_text = butten_font.render("Вы ПМФ, соболезнуем", True, PANTONE_351)
+
 running = True
 while running:
     #clock.tick(FPS)
