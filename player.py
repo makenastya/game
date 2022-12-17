@@ -1,18 +1,21 @@
 import pygame
+
+SCREEN_WIDTH, SCREEN_HEIGHT = 500, 500
+from pygame import (
+    K_LEFT,
+    K_RIGHT,
+    K_SPACE
+)
 class Player(pygame.sprite.Sprite):
     SPEED = 1
     SIZE = 30
-
     def __init__(self):
         self._health = 3
         self._attack = 20
         super(Player, self).__init__()
         self.surf = pygame.Surface((Player.SIZE, Player.SIZE))
         self.surf.fill((255, 255, 255))  # Change appearance
-        self.rect = self.surf.get_rect(center=(
-            SCREEN_WIDTH,
-            SCREEN_HEIGHT
-        ))
+        self.rect = self.surf.get_rect(center=(500, 500))
     def attack(self, target):
         target._health -= self._attack
         print('some text')
