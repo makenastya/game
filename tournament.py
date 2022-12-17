@@ -41,4 +41,16 @@ def game_tournament(hero, enemy_list):
                 cur += 1
             start = time.time()
 
+def start_game():
 
+    try:
+        print('Добро пожаловать в игру про учебные долги!')
+        print('Как вас звать? (или вы сами приходите?) ', end = '')
+        hero = Hero(input())
+        print('Введите желаемый уровень: \n 1 уровень - вы на бт \n 2 уровень - все еще бт, но вы взяли себе вычматы \n 3 уровень - поздравляем, вы пмф')
+
+        level = int(input())
+        enemy_list = generate_enemy_list(level)
+
+        print('У вас горит', enemy_list.size(), 'дедлайнов!')
+        game_tournament(hero, enemy_list)
