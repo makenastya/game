@@ -1,10 +1,23 @@
 from random import choice
-class Enemy():
+import pygame
+
+class Enemy(pygame.sprite.Sprite):
+
     _health = None
     _attack = None
     _time = None
     _start = None
+    SPEED = 1
+    SIZE = 1
 
+    def __init__(self):
+        super(Enemy, self).__init__()
+        self.surf = pygame.Surface((50, 50))
+        self.surf.fill((255, 255, 0))  # Change appearance
+        self.rect = self.surf.get_rect(center=(random.randint(0, SCREEN_WIDTH), 0))
+
+    def move(self):
+        self.rect.move_ip(0, Arrear.SPEED)
     def attack(self, target):
         target._health -= self._attack
 
@@ -52,5 +65,5 @@ class Third(Enemy):
         self._health = 200
         self._time = 50
         self._type = 'boss'
-        self._attack = 3
+        self._attack = 2
 
