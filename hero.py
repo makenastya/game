@@ -14,12 +14,14 @@ class Hero():
     def is_alive(self):
         return self._health > 0
     
+
+    
     
         
 
 
 class health_upper():
-
+    _quantity = None
     _points = None
     
     def add_health(self, target):
@@ -27,6 +29,10 @@ class health_upper():
         hero_answer = None
         game_answer = None
         return hero_answer, game_answer
+
+    def if_aviable(self):
+        return self._quantity > 0 
+
     
 class Coffee(health_upper):
 
