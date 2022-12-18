@@ -77,6 +77,7 @@ class Coffee(health_upper):
         self.surf.fill((130, 93, 20))  # Change appearance
         self._points = 1
         self._name = 'Кружка кофе'
+        self._message = 'Физтех выпил кофе. Здоровье повышено'
         self._type = 'health_upper'
 
     def add_health(self, target):
@@ -93,6 +94,7 @@ class Annoy_neighbour(health_upper):
         self.surf.fill((222,247, 54))
         self._points = 0.5
         self._name = 'Поныть соседу'
+        self._message = 'Физтех успешно поныл соседу. Здоровье повышено.'
         self._type = 'health_upper'
 
     def add_health(self, target):
