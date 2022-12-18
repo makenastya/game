@@ -2,6 +2,8 @@ import time
 import pygame
 from enemies import *
 from player import *
+from game_over import *
+from win import *
 import random
 
 SCREEN_WIDTH, SCREEN_HEIGHT = 1200, 700
@@ -9,15 +11,25 @@ SCREEN_WIDTH, SCREEN_HEIGHT = 1200, 700
 def game_tournament(level, screen):
     running = True
     hero = Player()
-    enemy_list = generate_enemy_list(level)    f1 = pygame.font.Font(None, 20)
+    enemy_list = generate_enemy_list(level)
+    f1 = pygame.font.Font(None, 30)
     screen.fill((61, 245, 190))
+    image = pygame.image.load("heart.png")
+    image = pygame.transform.scale(image, (50, 35))
+    image.set_colorkey((255, 255, 255))
+    string = pygame.Rect(0, 0, SCREEN_WIDTH, 0).inflate(1200, 100)
 
     enemies = []
     counter = 0
     cur = 0
     fl = 0
     cf = 0
+    at = 0
     while running:
+        pygame.draw.rect(screen, (0, 0, 0), string)
+        screen.blit(image, (20, 10))
+        heart = f1.render(str(hero._health), True, (255, 255, 255))
+        screen.blit(heart, (70, 20))
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
@@ -39,7 +51,6 @@ def game_tournament(level, screen):
             cur += 1
             counter = 0
 
-
         for x in enemies:
             x.move()
             screen.blit(x.surf, x.rect)
@@ -54,18 +65,25 @@ def game_tournament(level, screen):
                 enemies.remove(x)
 
         if cf > 0:
-            if cf > 200:
+            if cf > 200 or at > 0:
                 cf = 0
             else:
-                text = f1.render(message, True, (180, 0, 0))
-                screen.blit(text, (10, 50))
+                text = f1.render(message, True, (255, 255, 255))
+                screen.blit(text, (500, 10))
                 cf += 1
         for x in enemies:
             if not x.on_screen() and x._type != 'health_upper':
                 x.attack(hero)
-                print(hero._health)
+                at = 1
+                uron = x._attack
                 enemies.remove(x)
-
+        if at > 0:
+            if at > 200 or cf > 0:
+                at = 0
+            else:
+                text = f1.render(f'Вы пропустили дедлайн, минус {uron} здоровья', True, (255, 255, 255))
+                screen.blit(text, (500, 10))
+                at += 1
         hero.update(pressed_keys)
         screen.blit(hero.surf, hero.rect)
         pygame.display.flip()
@@ -73,21 +91,9 @@ def game_tournament(level, screen):
         time.sleep(0.001)
         screen.fill((61, 245, 190))
         if hero._health <= 0:
-            print('You lose')
+            game_over()
             running = False
         if len(enemies) == 0 and fl == 1:
-            print('You win')
+            win()
             running = False
 
-def start_game():
-    try:
-        pygame.init()
-        screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-        print('Добро пожаловать в игру про учебные долги!')
-        print('Введите желаемый уровень: \n 1 уровень - вы на бт \n 2 уровень - все еще бт, но вы взяли себе вычматы \n 3 уровень - поздравляем, вы пмф')
-        level = 2
-        enemy_list = generate_enemy_list(level)
-        print('У вас горит', len(enemy_list), 'дедлайнов!')
-        game_tournament(level, screen)
-    except EOFError:
-        print('Поток ввода закончился. Извините, принимать ответы более невозможно.')

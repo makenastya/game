@@ -55,8 +55,6 @@ class health_upper(pygame.sprite.Sprite):
 
     def __init__(self):
         super(health_upper, self).__init__()
-        self.surf = pygame.Surface((50, 50))
-        self.rect = self.surf.get_rect(center=(random.randint(0, SCREEN_WIDTH), 0))
 
     def move(self):
         self.rect.move_ip(0, health_upper.SPEED)
@@ -74,31 +72,27 @@ class Coffee(health_upper):
 
     def __init__(self):
         super(Coffee, self).__init__()
-        self.surf.fill((130, 93, 20))  # Change appearance
+        pic = pygame.image.load("cup_of_tea.jpg")
+        pic = pygame.transform.scale(pic, (50, 50))
+        self.surf = pic
+        self.surf.set_colorkey((255, 255, 255), RLEACCEL)
+        self.rect = self.surf.get_rect(center=(random.randint(50, SCREEN_WIDTH - 50), 100))
         self._points = 1
         self._name = 'Кружка кофе'
         self._message = 'Физтех выпил кофе. Здоровье повышено'
         self._type = 'health_upper'
-
-    def add_health(self, target):
-        super().add_health(target)
-        hero_answer = 'some text'
-        game_answer = 'Физтех выпил кофе. Здоровье повышено'
-        print('Физтех выпил кофе. Здоровье повышено')
     
 
 class Annoy_neighbour(health_upper):
 
     def __init__(self):
         super(Annoy_neighbour, self).__init__()
-        self.surf.fill((222,247, 54))
         self._points = 0.5
+        pic = pygame.image.load("telephone.png")
+        pic = pygame.transform.scale(pic, (50, 50))
+        self.surf = pic
+        self.surf.set_colorkey((255, 255, 255), RLEACCEL)
+        self.rect = self.surf.get_rect(center=(random.randint(50, SCREEN_WIDTH - 50), 100))
         self._name = 'Поныть соседу'
         self._message = 'Физтех успешно поныл соседу. Здоровье повышено.'
         self._type = 'health_upper'
-
-    def add_health(self, target):
-        super().add_health(target)
-        hero_answer = 'some text'
-        game_answer = 'Физтех успешно поныл соседу. Здоровье повышено.'
-        print('Физтех успешно поныл соседу. Здоровье повышено.')
