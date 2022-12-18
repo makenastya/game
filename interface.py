@@ -34,10 +34,10 @@ butten_3_text = butten_font.render("Вы ПМФ, соболезнуем", True, 
 
 running = True
 while running:
-    #clock.tick(FPS)
-    #mouse_pos = pygame.mouse.get_pos()
+    clock.tick(FPS)
+    
+    #прорисовка меню
     screen.fill(PANTONE_148)
-  
     pygame.draw.rect(screen, PANTONE_335, [WIDTH / 2 - 250 , HEIGHT / 2 -100, 500, 40])
     pygame.draw.rect(screen, PANTONE_335, [WIDTH / 2 - 250, HEIGHT / 2, 500, 40])
     pygame.draw.rect(screen, PANTONE_335, [WIDTH / 2 - 250, HEIGHT / 2 + 100, 500, 40])
@@ -46,9 +46,26 @@ while running:
     screen.blit(butten_3_text, ((WIDTH / 2) - 100, HEIGHT / 2 + 105))
     screen.blit(text, ((WIDTH / 2) - 200, 30))
     screen.blit(level_choice_text, (WIDTH / 2 - 180, 150) )
+    #выбор уровня в меню, либо выход
+    mouse_pos = pygame.mouse.get_pos()
+    while running:
+        pygame.display.flip()
+        mouse_pos = pygame.mouse.get_pos()
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+            # if event.type == pygame.KEYUP:
+            #     if event.key == pygame.K_SPACE:
+
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if (WIDTH / 2 - 250) <= mouse_pos[0] <= (WIDTH / 2 + 250) and (HEIGHT / 2 -100) <= mouse_pos[1] <= (HEIGHT / 2- 60):
+                    running = False
+                    screen.blit(text, ((WIDTH / 2) - 200, 600))
+                    level = 1
 
     
 
-    pygame.display.flip()
+    
 pygame.quit()
 
