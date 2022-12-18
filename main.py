@@ -1,6 +1,6 @@
-from tournament import *
+from interface import *
 
 print(__name__)
 
 if __name__ == '__main__':
-    start_game()
+    run_interface()
