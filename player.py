@@ -1,21 +1,25 @@
 import pygame
+import random
 
-SCREEN_WIDTH, SCREEN_HEIGHT = 500, 500
+SCREEN_WIDTH, SCREEN_HEIGHT = 1200, 700
 from pygame import (
     K_LEFT,
     K_RIGHT,
-    K_SPACE
+    K_SPACE,
+    RLEACCEL
 )
 class Player(pygame.sprite.Sprite):
-    SPEED = 1
+    SPEED = 3
     SIZE = 30
     def __init__(self):
+        super(Player, self).__init__()
         self._health = 3
         self._attack = 20
-        super(Player, self).__init__()
-        self.surf = pygame.Surface((Player.SIZE, Player.SIZE))
-        self.surf.fill((255, 255, 255))  # Change appearance
-        self.rect = self.surf.get_rect(center=(500, 500))
+        pic = pygame.image.load("hero.png")
+        pic = pygame.transform.scale(pic, (100, 100))
+        self.surf = pic
+        self.surf.set_colorkey((255, 255, 255), RLEACCEL)
+        self.rect = self.surf.get_rect(center=(SCREEN_WIDTH, SCREEN_HEIGHT))
     def attack(self, target):
         target._health -= self._attack
         print('some text')
@@ -43,26 +47,24 @@ class Player(pygame.sprite.Sprite):
 
 
 
-class health_upper():
+class health_upper(pygame.sprite.Sprite):
     _quantity = None
     _points = None
     SPEED = 1
     SIZE = 1
 
     def __init__(self):
-        super(Enemy, self).__init__()
+        super(health_upper, self).__init__()
         self.surf = pygame.Surface((50, 50))
-        self.surf.fill((255, 255, 0))  # Change appearance
         self.rect = self.surf.get_rect(center=(random.randint(0, SCREEN_WIDTH), 0))
 
     def move(self):
-        self.rect.move_ip(0, Arrear.SPEED)
+        self.rect.move_ip(0, health_upper.SPEED)
+    def on_screen(self):
+        return self.rect.top < SCREEN_HEIGHT
     
     def add_health(self, target):
         target._health += self._points
-        hero_answer = None
-        game_answer = None
-        return hero_answer, game_answer
 
     def if_aviable(self):
         return self._quantity > 0 
@@ -71,24 +73,30 @@ class health_upper():
 class Coffee(health_upper):
 
     def __init__(self):
+        super(Coffee, self).__init__()
+        self.surf.fill((130, 93, 20))  # Change appearance
         self._points = 1
         self._name = 'Кружка кофе'
+        self._type = 'health_upper'
 
     def add_health(self, target):
-        super().add_health()
+        super().add_health(target)
         hero_answer = 'some text'
         game_answer = 'Физтех выпил кофе. Здоровье повышено'
-
+        print('Физтех выпил кофе. Здоровье повышено')
     
 
 class Annoy_neighbour(health_upper):
 
     def __init__(self):
+        super(Annoy_neighbour, self).__init__()
+        self.surf.fill((222,247, 54))
         self._points = 0.5
         self._name = 'Поныть соседу'
+        self._type = 'health_upper'
 
     def add_health(self, target):
-        super().add_health()
+        super().add_health(target)
         hero_answer = 'some text'
         game_answer = 'Физтех успешно поныл соседу. Здоровье повышено.'
-
+        print('Физтех успешно поныл соседу. Здоровье повышено.')
