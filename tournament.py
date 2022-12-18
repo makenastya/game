@@ -9,11 +9,14 @@ SCREEN_WIDTH, SCREEN_HEIGHT = 1200, 700
 def game_tournament(level, screen):
     running = True
     hero = Player()
-    enemy_list = generate_enemy_list(level)
+    enemy_list = generate_enemy_list(level)    f1 = pygame.font.Font(None, 20)
+    screen.fill((61, 245, 190))
+
     enemies = []
     counter = 0
     cur = 0
     fl = 0
+    cf = 0
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -45,9 +48,18 @@ def game_tournament(level, screen):
             if pygame.sprite.collide_rect(hero, x):
                 if x._type == 'health_upper':
                     x.add_health(hero)
+                    cf = 1
+                    message = x._message
                     print(hero._health)
                 enemies.remove(x)
 
+        if cf > 0:
+            if cf > 200:
+                cf = 0
+            else:
+                text = f1.render(message, True, (180, 0, 0))
+                screen.blit(text, (10, 50))
+                cf += 1
         for x in enemies:
             if not x.on_screen() and x._type != 'health_upper':
                 x.attack(hero)
@@ -57,10 +69,9 @@ def game_tournament(level, screen):
         hero.update(pressed_keys)
         screen.blit(hero.surf, hero.rect)
         pygame.display.flip()
-        screen.fill((135, 206, 250))
         counter += 1
         time.sleep(0.001)
-
+        screen.fill((61, 245, 190))
         if hero._health <= 0:
             print('You lose')
             running = False
